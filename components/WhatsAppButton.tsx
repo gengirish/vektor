@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-const WHATSAPP_NUMBER = "9185559960837";
+const WHATSAPP_NUMBER = "918555960837";
 const WHATSAPP_MESSAGE = "Hi VEKTOR! I'm interested in learning more about your services.";
 
 export default function WhatsAppButton() {

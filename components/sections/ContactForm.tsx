@@ -100,7 +100,7 @@ export default function ContactForm() {
                 </a>
 
                 <a
-                  href="https://wa.me/9185559960837"
+                  href="https://wa.me/918555960837"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-4 text-bone transition-colors hover:text-gold"
@@ -112,7 +112,7 @@ export default function ContactForm() {
                   </div>
                   <div>
                     <p className="font-body text-sm font-light text-muted">WhatsApp</p>
-                    <p className="font-body text-sm">+91 85559 96083 7</p>
+                    <p className="font-body text-sm">+91 85559 60837</p>
                   </div>
                 </a>
 
