@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, DM_Sans, Space_Mono } from "next/font/google";
 import Cursor from "@/components/Cursor";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -51,6 +52,7 @@ export default function RootLayout({
     >
       <body className="font-body antialiased">
         <Cursor />
+        <WhatsAppButton />
         {children}
       </body>
     </html>

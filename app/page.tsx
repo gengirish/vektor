@@ -6,6 +6,7 @@ import Stats from "@/components/sections/Stats";
 import Services from "@/components/sections/Services";
 import WhyDharwad from "@/components/sections/WhyDharwad";
 import Process from "@/components/sections/Process";
+import ContactForm from "@/components/sections/ContactForm";
 import CTABand from "@/components/sections/CTABand";
 import Footer from "@/components/Footer";
 
@@ -20,6 +21,7 @@ export default function Home() {
       <Services />
       <WhyDharwad />
       <Process />
+      <ContactForm />
       <CTABand />
       <Footer />
     </>

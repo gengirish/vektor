@@ -4,7 +4,7 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 
 export default function CTABand() {
   return (
-    <section id="contact" className="px-6 md:px-[52px]">
+    <section className="px-6 md:px-[52px]">
       <div className="relative overflow-hidden bg-gold px-8 py-16 md:px-[72px] md:py-20">
         {/* Ghost text */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none">
