@@ -7,7 +7,7 @@ export default function CTABand() {
     <section className="px-6 md:px-[52px]">
       <div className="relative overflow-hidden bg-gold px-8 py-16 md:px-[72px] md:py-20">
         {/* Ghost text */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none" aria-hidden="true">
           <span
             className="font-display leading-none whitespace-nowrap"
             style={{
@@ -40,7 +40,7 @@ export default function CTABand() {
           {/* Right */}
           <RevealOnScroll delay={0.2}>
             <a
-              href="mailto:hello@vektor.in"
+              href="#contact"
               className="shrink-0 bg-bg px-8 py-4 font-display text-sm tracking-widest text-bone transition-colors hover:bg-bg2"
             >
               START A CONVERSATION

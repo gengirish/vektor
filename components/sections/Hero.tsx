@@ -16,6 +16,7 @@ function HeroSVG() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="h-[420px] w-[420px]"
+        aria-hidden="true"
       >
         {/* Concentric squares */}
         <rect x="40" y="40" width="320" height="320" stroke="#E8A820" strokeWidth="0.5" opacity="0.15" />
@@ -62,7 +63,7 @@ export default function Hero() {
       <div className="hero-grid absolute inset-0 opacity-40" />
 
       {/* Ghost text */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none">
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center select-none" aria-hidden="true">
         <span
           className="font-display leading-none"
           style={{

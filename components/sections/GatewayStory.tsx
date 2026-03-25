@@ -9,6 +9,7 @@ function ChalukyaPattern() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="h-full w-full"
+      aria-hidden="true"
     >
       {/* Outer border frame */}
       <rect x="10" y="10" width="480" height="580" stroke="#E8A820" strokeWidth="0.6" opacity="0.15" />

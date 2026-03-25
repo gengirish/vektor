@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
@@ -8,11 +8,18 @@ export default function Cursor() {
   const mouse = useRef({ x: -100, y: -100 });
   const ringPos = useRef({ x: -100, y: -100 });
   const hovering = useRef(false);
+  const [isPointerDevice, setIsPointerDevice] = useState(false);
 
   useEffect(() => {
     const isTouchDevice =
       "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) return;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (isTouchDevice || prefersReducedMotion) return;
+
+    setIsPointerDevice(true);
 
     const onMove = (e: MouseEvent) => {
       mouse.current = { x: e.clientX, y: e.clientY };
@@ -20,7 +27,9 @@ export default function Cursor() {
 
     const onOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      hovering.current = !!target.closest("a, button, [role='button']");
+      hovering.current = !!target.closest(
+        "a, button, [role='button'], input, textarea, select, label"
+      );
     };
 
     window.addEventListener("mousemove", onMove);
@@ -54,16 +63,18 @@ export default function Cursor() {
     };
   }, []);
 
+  if (!isPointerDevice) return null;
+
   return (
     <>
       <div
         ref={dot}
-        className="pointer-events-none fixed top-0 left-0 z-[9998] h-2 w-2 rounded-full bg-gold"
+        className="pointer-events-none fixed top-0 left-0 z-[10000] h-2 w-2 rounded-full bg-gold"
         style={{ mixBlendMode: "difference" }}
       />
       <div
         ref={ring}
-        className="pointer-events-none fixed top-0 left-0 z-[9998] rounded-full border-[1.5px] border-gold transition-[width,height] duration-200"
+        className="pointer-events-none fixed top-0 left-0 z-[10000] rounded-full border-[1.5px] border-gold transition-[width,height] duration-200"
         style={{ mixBlendMode: "difference" }}
       />
     </>

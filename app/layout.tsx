@@ -25,19 +25,73 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
+const siteUrl = "https://vektor-nu.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "VEKTOR — The Gateway. Evolved.",
   description:
     "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka. Built for the world.",
+  keywords: [
+    "IT consulting",
+    "AI integration",
+    "cloud architecture",
+    "cybersecurity",
+    "digital transformation",
+    "Dharwad",
+    "Karnataka",
+    "India",
+    "VEKTOR",
+  ],
+  authors: [{ name: "VEKTOR", url: siteUrl }],
   openGraph: {
     title: "VEKTOR — The Gateway. Evolved.",
     description:
       "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka. Built for the world.",
+    url: siteUrl,
+    siteName: "VEKTOR",
+    locale: "en_IN",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VEKTOR — The Gateway. Evolved.",
+    description:
+      "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka.",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
   other: {
     "theme-color": "#07070A",
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "VEKTOR",
+  alternateName: "VEKTOR IT Services",
+  url: siteUrl,
+  description:
+    "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka.",
+  foundingDate: "2024",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Dharwad",
+    addressRegion: "Karnataka",
+    postalCode: "580001",
+    addressCountry: "IN",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hello@vektor.in",
+    telephone: "+918555960837",
+    contactType: "sales",
+    availableLanguage: ["English", "Hindi", "Kannada"],
+  },
+  sameAs: [],
 };
 
 export default function RootLayout({
@@ -50,6 +104,12 @@ export default function RootLayout({
       lang="en"
       className={`${bebasNeue.variable} ${dmSans.variable} ${spaceMono.variable}`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="font-body antialiased">
         <Cursor />
         <WhatsAppButton />

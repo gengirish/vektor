@@ -106,10 +106,14 @@ export const FOOTER_LINKS = {
     "IT Infrastructure",
     "IT Consulting",
   ],
-  company: ["About", "Process", "Careers", "Blog"],
+  company: [
+    { label: "About", href: "#about" },
+    { label: "Process", href: "#process" },
+    { label: "Contact", href: "#contact" },
+  ],
   contact: [
     { label: "hello@vektor.in", href: "mailto:hello@vektor.in" },
-    { label: "Dharwad, Karnataka", href: "#" },
-    { label: "India 580001", href: "#" },
+    { label: "Dharwad, Karnataka", href: "https://maps.app.goo.gl/dharwad" },
+    { label: "India 580001", href: "https://maps.app.goo.gl/dharwad" },
   ],
 } as const;

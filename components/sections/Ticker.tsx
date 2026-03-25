@@ -4,7 +4,7 @@ export default function Ticker() {
   const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
   return (
-    <div className="w-full overflow-hidden bg-gold py-4">
+    <div className="w-full overflow-hidden bg-gold py-4" aria-hidden="true">
       <div className="animate-ticker flex w-max items-center gap-0">
         {items.map((item, i) => (
           <span key={i} className="flex shrink-0 items-center gap-6 px-6">

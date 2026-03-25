@@ -47,12 +47,12 @@ export default function Footer() {
             </h4>
             <ul className="flex flex-col gap-2.5">
               {FOOTER_LINKS.company.map((c) => (
-                <li key={c}>
+                <li key={c.label}>
                   <a
-                    href="#"
+                    href={c.href}
                     className="font-body text-sm font-light text-muted transition-colors hover:text-bone"
                   >
-                    {c}
+                    {c.label}
                   </a>
                 </li>
               ))}

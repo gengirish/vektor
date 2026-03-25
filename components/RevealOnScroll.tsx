@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef, type ReactNode } from "react";
 
 interface RevealOnScrollProps {
@@ -18,6 +18,15 @@ export default function RevealOnScroll({
 }: RevealOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const reduceMotion = useReducedMotion();
+
+  if (reduceMotion) {
+    return (
+      <div className={className} style={{ width }}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <motion.div
