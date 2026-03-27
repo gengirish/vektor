@@ -69,6 +69,9 @@ export default function Footer() {
                 <li key={c.label}>
                   <a
                     href={c.href}
+                    {...("external" in c && c.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                     className="font-body text-sm font-light text-muted transition-colors hover:text-bone"
                   >
                     {c.label}

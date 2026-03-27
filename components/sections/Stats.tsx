@@ -4,6 +4,22 @@ import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { STATS } from "@/lib/constants";
 
+function animateCounter(
+  from: number,
+  to: number,
+  duration: number,
+  setter: (v: number) => void
+) {
+  const start = performance.now();
+  function step(now: number) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    setter(Math.round(from + (to - from) * eased));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 function AnimatedStat({
   value,
   suffix,
@@ -14,36 +30,25 @@ function AnimatedStat({
   label: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-  const [display, setDisplay] = useState(0);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    if (!inView) return;
-    const duration = 1600;
-    const start = performance.now();
-
-    const tick = (now: number) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplay(Math.round(eased * value));
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-
-    requestAnimationFrame(tick);
-  }, [inView, value]);
+    if (isInView) {
+      animateCounter(0, value, 1800, setDisplayValue);
+    }
+  }, [isInView, value]);
 
   return (
     <div
       ref={ref}
       className="relative flex flex-col gap-2 px-6 py-8 md:px-10 md:py-12"
     >
-      {/* Left accent line */}
       <div className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-gold to-transparent" />
 
       <div className="flex items-baseline gap-1">
         <span className="font-display text-[56px] leading-none text-bone md:text-[64px]">
-          {display}
+          {displayValue}
         </span>
         <span className="font-display text-[32px] leading-none text-gold">
           {suffix}
@@ -64,7 +69,7 @@ export default function Stats() {
         {STATS.map((stat, i) => (
           <div
             key={i}
-            className={`${i < STATS.length - 1 ? "border-b border-border md:border-b-0 md:border-r" : ""} ${i === 1 ? "border-r border-border md:border-r" : ""}`}
+            className={`${i % 2 === 0 ? "border-r border-border" : ""} ${i < 2 ? "border-b border-border md:border-b-0" : ""} ${i < 3 ? "md:border-r md:border-border" : ""}`}
           >
             <AnimatedStat
               value={stat.value}

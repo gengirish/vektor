@@ -1,54 +1,66 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
 import RevealOnScroll from "@/components/RevealOnScroll";
 
 const WHATSAPP_NUMBER = "918555960837";
 
-interface FormState {
-  status: "idle" | "submitting" | "success" | "error";
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  service: string;
   message: string;
 }
 
-const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "";
+const initialFormData: FormData = {
+  name: "",
+  email: "",
+  phone: "",
+  company: "",
+  service: "",
+  message: "",
+};
 
 export default function ContactForm() {
-  const [form, setForm] = useState<FormState>({
-    status: "idle",
-    message: "",
-  });
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  function updateField(field: keyof FormData, value: string) {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setForm({ status: "submitting", message: "" });
-
-    const data = new FormData(e.currentTarget);
-    data.set("access_key", ACCESS_KEY);
-    data.set("subject", "New Enquiry from VEKTOR Website");
-    data.set("from_name", "VEKTOR Website");
+    setLoading(true);
+    setSuccess(false);
+    setError("");
 
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        body: data,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-      const json = await res.json();
 
-      if (json.success) {
-        setForm({
-          status: "success",
-          message: "Thank you! We'll get back to you within 24 hours.",
-        });
-        (e.target as HTMLFormElement).reset();
-      } else {
-        throw new Error(json.message || "Submission failed");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to send");
       }
+
+      setSuccess(true);
+      setFormData(initialFormData);
+      formRef.current?.reset();
     } catch {
-      setForm({
-        status: "error",
-        message:
-          "Something went wrong. Please email us directly at hello@vektor.in",
-      });
+      setError(
+        "Something went wrong. Email us directly at hello@vektor.in"
+      );
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -125,9 +137,14 @@ export default function ContactForm() {
                   </div>
                 </a>
 
-                <div className="flex items-center gap-4 text-bone">
+                <a
+                  href="https://maps.google.com/?q=Dharwad,Karnataka,India"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 text-bone transition-colors hover:text-gold"
+                >
                   <div
-                    className="flex h-11 w-11 shrink-0 items-center justify-center border border-border"
+                    className="flex h-11 w-11 shrink-0 items-center justify-center border border-border transition-colors group-hover:border-gold"
                     aria-hidden="true"
                   >
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -139,7 +156,7 @@ export default function ContactForm() {
                     <p className="font-body text-sm font-light text-muted">Location</p>
                     <p className="font-body text-sm">Dharwad, Karnataka 580001</p>
                   </div>
-                </div>
+                </a>
               </div>
             </RevealOnScroll>
           </div>
@@ -147,11 +164,10 @@ export default function ContactForm() {
           {/* Right — form */}
           <RevealOnScroll delay={0.2}>
             <form
+              ref={formRef}
               onSubmit={handleSubmit}
               className="flex flex-col gap-5 border border-border bg-bg2 p-8 md:p-10"
             >
-              <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} />
-
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="cf-name" className="font-mono text-[11px] tracking-[0.15em] text-muted uppercase">
@@ -164,6 +180,8 @@ export default function ContactForm() {
                     required
                     autoComplete="name"
                     placeholder="Your name"
+                    value={formData.name}
+                    onChange={(e) => updateField("name", e.target.value)}
                     className="border border-border bg-bg px-4 py-3 font-body text-sm text-bone placeholder:text-muted/50 outline-none transition-colors focus:border-gold"
                   />
                 </div>
@@ -178,6 +196,8 @@ export default function ContactForm() {
                     required
                     autoComplete="email"
                     placeholder="you@company.com"
+                    value={formData.email}
+                    onChange={(e) => updateField("email", e.target.value)}
                     className="border border-border bg-bg px-4 py-3 font-body text-sm text-bone placeholder:text-muted/50 outline-none transition-colors focus:border-gold"
                   />
                 </div>
@@ -194,6 +214,8 @@ export default function ContactForm() {
                     name="phone"
                     autoComplete="tel"
                     placeholder="+91 XXXXX XXXXX"
+                    value={formData.phone}
+                    onChange={(e) => updateField("phone", e.target.value)}
                     className="border border-border bg-bg px-4 py-3 font-body text-sm text-bone placeholder:text-muted/50 outline-none transition-colors focus:border-gold"
                   />
                 </div>
@@ -207,6 +229,8 @@ export default function ContactForm() {
                     name="company"
                     autoComplete="organization"
                     placeholder="Company name"
+                    value={formData.company}
+                    onChange={(e) => updateField("company", e.target.value)}
                     className="border border-border bg-bg px-4 py-3 font-body text-sm text-bone placeholder:text-muted/50 outline-none transition-colors focus:border-gold"
                   />
                 </div>
@@ -219,8 +243,9 @@ export default function ContactForm() {
                 <select
                   id="cf-service"
                   name="service"
+                  value={formData.service}
+                  onChange={(e) => updateField("service", e.target.value)}
                   className="border border-border bg-bg px-4 py-3 font-body text-sm text-bone outline-none transition-colors focus:border-gold"
-                  defaultValue=""
                 >
                   <option value="" disabled>Select a service</option>
                   <option value="AI Integration">AI Integration</option>
@@ -243,16 +268,18 @@ export default function ContactForm() {
                   required
                   rows={5}
                   placeholder="Tell us about your project or challenge..."
+                  value={formData.message}
+                  onChange={(e) => updateField("message", e.target.value)}
                   className="resize-none border border-border bg-bg px-4 py-3 font-body text-sm text-bone placeholder:text-muted/50 outline-none transition-colors focus:border-gold"
                 />
               </div>
 
               <button
                 type="submit"
-                disabled={form.status === "submitting"}
-                className="mt-2 flex items-center justify-center gap-3 bg-gold px-8 py-4 font-display text-sm tracking-widest text-bg transition-colors hover:bg-gold-l disabled:opacity-60"
+                disabled={loading}
+                className="mt-2 flex items-center justify-center gap-3 bg-gold px-8 py-4 font-display text-sm tracking-widest text-bg transition-colors hover:bg-gold-l disabled:cursor-not-allowed disabled:bg-gold-d disabled:opacity-70"
               >
-                {form.status === "submitting" ? (
+                {loading ? (
                   <>
                     <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
@@ -265,23 +292,25 @@ export default function ContactForm() {
                 )}
               </button>
 
-              {/* Status messages — announced to screen readers */}
+              {/* Status messages */}
               <div aria-live="polite" aria-atomic="true">
-                {form.status === "success" && (
+                {success && (
                   <div className="flex items-center gap-3 border border-gold/30 bg-gold/5 px-5 py-3">
                     <svg className="h-5 w-5 shrink-0 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <p className="font-body text-sm text-gold">{form.message}</p>
+                    <p className="font-body text-sm text-gold">
+                      Message sent. We&apos;ll respond within 24 hours.
+                    </p>
                   </div>
                 )}
 
-                {form.status === "error" && (
+                {error && (
                   <div className="flex items-center gap-3 border border-red-500/30 bg-red-500/5 px-5 py-3" role="alert">
                     <svg className="h-5 w-5 shrink-0 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                     </svg>
-                    <p className="font-body text-sm text-red-400">{form.message}</p>
+                    <p className="font-body text-sm text-red-400">{error}</p>
                   </div>
                 )}
               </div>

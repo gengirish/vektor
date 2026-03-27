@@ -5,13 +5,13 @@ export default function Ticker() {
 
   return (
     <div className="w-full overflow-hidden bg-gold py-4" aria-hidden="true">
-      <div className="animate-ticker flex w-max items-center gap-0">
+      <div className="animate-ticker flex w-max">
         {items.map((item, i) => (
-          <span key={i} className="flex shrink-0 items-center gap-6 px-6">
-            <span className="font-display text-lg tracking-wider text-bg whitespace-nowrap">
+          <span key={i} className="flex shrink-0 items-center">
+            <span className="px-5 font-display text-lg tracking-wider text-bg whitespace-nowrap">
               {item}
             </span>
-            <span className="text-bg/40 text-xs">◆</span>
+            <span className="text-[10px] text-bg/60">◆</span>
           </span>
         ))}
       </div>

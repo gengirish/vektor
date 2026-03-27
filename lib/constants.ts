@@ -59,25 +59,25 @@ export const SERVICES = [
 
 export const PROCESS_STEPS = [
   {
-    num: 1,
+    num: "01",
     title: "Discover",
     description:
       "Deep-dive into your technology landscape, business goals, and untapped opportunities.",
   },
   {
-    num: 2,
+    num: "02",
     title: "Architect",
     description:
       "Design scalable, future-proof solutions with precise engineering blueprints.",
   },
   {
-    num: 3,
+    num: "03",
     title: "Execute",
     description:
       "Agile implementation with transparent milestones, rigorous testing, and zero surprises.",
   },
   {
-    num: 4,
+    num: "04",
     title: "Elevate",
     description:
       "Continuous optimization, monitoring, and innovation to keep you ahead of the curve.",
@@ -95,6 +95,8 @@ export const TICKER_ITEMS = [
   "Smart City Tech",
   "Gateway to the Future",
   "Vidya Kashi",
+  "Oxford of Karnataka",
+  "Est. 1403",
 ] as const;
 
 export const FOOTER_LINKS = {
@@ -113,7 +115,15 @@ export const FOOTER_LINKS = {
   ],
   contact: [
     { label: "hello@vektor.in", href: "mailto:hello@vektor.in" },
-    { label: "Dharwad, Karnataka", href: "https://maps.app.goo.gl/dharwad" },
-    { label: "India 580001", href: "https://maps.app.goo.gl/dharwad" },
+    {
+      label: "Dharwad, Karnataka",
+      href: "https://maps.google.com/?q=Dharwad,Karnataka,India",
+      external: true,
+    },
+    {
+      label: "India 580001",
+      href: "https://maps.google.com/?q=Dharwad,Karnataka,India",
+      external: true,
+    },
   ],
 } as const;

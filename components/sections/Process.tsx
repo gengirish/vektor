@@ -34,9 +34,8 @@ export default function Process() {
           {PROCESS_STEPS.map((step, i) => (
             <RevealOnScroll key={step.num} delay={i * 0.12}>
               <div className="flex flex-col items-center gap-5 text-center">
-                {/* Numbered circle */}
-                <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border border-gold bg-bg">
-                  <span className="font-display text-2xl text-gold">
+                <div className="relative z-[1] flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold bg-bg">
+                  <span className="font-display text-[22px] text-gold">
                     {step.num}
                   </span>
                 </div>

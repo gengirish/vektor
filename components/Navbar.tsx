@@ -30,7 +30,7 @@ export default function Navbar() {
     <>
       <nav
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 z-50 flex w-full items-center justify-between px-6 py-4 transition-all duration-300 md:px-12 ${
+        className={`fixed top-0 left-0 z-[100] flex w-full items-center justify-between px-6 py-4 transition-all duration-300 md:px-12 ${
           scrolled
             ? "border-b border-border bg-[rgba(7,7,10,0.85)] backdrop-blur-md"
             : "bg-transparent"
@@ -59,7 +59,6 @@ export default function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-4">
-          {/* CTA — hidden on mobile when menu is the path */}
           <a
             href="#contact"
             className="hidden bg-gold px-5 py-2.5 font-display text-sm tracking-widest text-bg transition-colors hover:bg-gold-l sm:inline-block"
@@ -71,21 +70,21 @@ export default function Navbar() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex h-10 w-10 flex-col items-center justify-center gap-[5px] md:hidden"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={menuOpen}
           >
             <span
-              className={`h-[2px] w-5 bg-bone transition-all duration-300 ${
+              className={`h-[2px] w-6 bg-gold transition-all duration-300 ${
                 menuOpen ? "translate-y-[7px] rotate-45" : ""
               }`}
             />
             <span
-              className={`h-[2px] w-5 bg-bone transition-all duration-300 ${
+              className={`h-[2px] w-6 bg-gold transition-all duration-300 ${
                 menuOpen ? "opacity-0" : ""
               }`}
             />
             <span
-              className={`h-[2px] w-5 bg-bone transition-all duration-300 ${
+              className={`h-[2px] w-6 bg-gold transition-all duration-300 ${
                 menuOpen ? "-translate-y-[7px] -rotate-45" : ""
               }`}
             />
@@ -97,11 +96,11 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-bg/95 backdrop-blur-lg md:hidden"
+            className="fixed inset-0 z-[90] flex flex-col items-center justify-center gap-12 bg-[rgba(7,7,10,0.98)] backdrop-blur-[20px] md:hidden"
           >
             {NAV_LINKS.map((link, i) => (
               <motion.a
@@ -112,7 +111,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ delay: i * 0.08, duration: 0.4 }}
-                className="font-display text-3xl tracking-wider text-bone transition-colors hover:text-gold"
+                className="font-display text-[52px] leading-none tracking-[0.06em] text-bone transition-colors hover:text-gold"
               >
                 {link.label}
               </motion.a>

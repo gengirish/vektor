@@ -28,26 +28,31 @@ const spaceMono = Space_Mono({
 const siteUrl = "https://vektor-nu.vercel.app";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
   title: "VEKTOR — The Gateway. Evolved.",
   description:
-    "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka. Built for the world.",
+    "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka. Cloud architecture, cybersecurity, AI integration, and IT consulting for ambitious businesses.",
   keywords: [
-    "IT consulting",
-    "AI integration",
-    "cloud architecture",
-    "cybersecurity",
-    "digital transformation",
-    "Dharwad",
-    "Karnataka",
-    "India",
-    "VEKTOR",
+    "IT services Dharwad",
+    "AI integration Karnataka",
+    "cloud architecture India",
+    "cybersecurity Dharwad",
+    "digital transformation Hubli",
+    "IT consulting Karnataka",
+    "VEKTOR technologies",
+    "tech company Dharwad",
   ],
-  authors: [{ name: "VEKTOR", url: siteUrl }],
+  authors: [{ name: "VEKTOR Technologies", url: siteUrl }],
+  creator: "VEKTOR Technologies",
+  metadataBase: new URL(siteUrl),
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     title: "VEKTOR — The Gateway. Evolved.",
     description:
-      "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka. Built for the world.",
+      "AI-powered IT solutions engineered in Dharwad, Karnataka.",
     url: siteUrl,
     siteName: "VEKTOR",
     locale: "en_IN",
@@ -57,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "VEKTOR — The Gateway. Evolved.",
     description:
-      "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka.",
+      "AI-powered IT solutions engineered in Dharwad, Karnataka.",
   },
   robots: {
     index: true,
