@@ -85,7 +85,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <span className="font-body text-xs font-light text-muted">
-            &copy; {new Date().getFullYear()} VEKTOR. All rights reserved.
+            &copy; {new Date().getFullYear()} Vektor Technologies. All rights reserved.
           </span>
           <span className="font-mono text-xs tracking-wide text-gold">
             ◆ Built in Dharwad. Built for the World.

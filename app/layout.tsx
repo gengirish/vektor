@@ -76,8 +76,8 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "VEKTOR",
-  alternateName: "VEKTOR IT Services",
+  name: "Vektor Technologies",
+  alternateName: "VEKTOR",
   url: siteUrl,
   description:
     "AI-powered IT solutions and digital transformation, engineered in Dharwad, Karnataka.",
