@@ -4,23 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { STATS } from "@/lib/constants";
 
-function animateCounter(
-  from: number,
-  to: number,
-  duration: number,
-  setter: (v: number) => void
-) {
-  const start = performance.now();
-  function step(now: number) {
-    const progress = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    setter(Math.round(from + (to - from) * eased));
-    if (progress < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-
-function AnimatedStat({
+function StatItem({
   value,
   suffix,
   label,
@@ -29,14 +13,26 @@ function AnimatedStat({
   suffix: string;
   label: string;
 }) {
+  const [display, setDisplay] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
-  const [displayValue, setDisplayValue] = useState(0);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   useEffect(() => {
-    if (isInView) {
-      animateCounter(0, value, 1800, setDisplayValue);
+    if (!isInView) return;
+
+    const duration = 1800;
+    const start = performance.now();
+    let raf: number;
+
+    function step(now: number) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplay(Math.round(eased * value));
+      if (progress < 1) raf = requestAnimationFrame(step);
     }
+
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
   }, [isInView, value]);
 
   return (
@@ -48,7 +44,7 @@ function AnimatedStat({
 
       <div className="flex items-baseline gap-1">
         <span className="font-display text-[56px] leading-none text-bone md:text-[64px]">
-          {displayValue}
+          {display}
         </span>
         <span className="font-display text-[32px] leading-none text-gold">
           {suffix}
@@ -68,10 +64,10 @@ export default function Stats() {
       <div className="mx-auto grid max-w-[1400px] grid-cols-2 md:grid-cols-4">
         {STATS.map((stat, i) => (
           <div
-            key={i}
+            key={stat.label}
             className={`${i % 2 === 0 ? "border-r border-border" : ""} ${i < 2 ? "border-b border-border md:border-b-0" : ""} ${i < 3 ? "md:border-r md:border-border" : ""}`}
           >
-            <AnimatedStat
+            <StatItem
               value={stat.value}
               suffix={stat.suffix}
               label={stat.label}
