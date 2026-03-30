@@ -25,7 +25,7 @@ const spaceMono = Space_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://vektor-nu.vercel.app";
+const siteUrl = "https://vektortech.digital";
 
 export const metadata: Metadata = {
   title: "VEKTOR — The Gateway. Evolved.",
