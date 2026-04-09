@@ -26,8 +26,8 @@ export async function POST(req: NextRequest) {
     }
 
     await resend.emails.send({
-      from: "VEKTOR Contact <onboarding@resend.dev>",
-      to: "hello@vektor.in",
+      from: "Vektor Technologies <contact@vektortech.digital>",
+      to: "gen.girish@gmail.com",
       replyTo: email,
       subject: `New enquiry from ${name} — ${service || "General"}`,
       html: `
