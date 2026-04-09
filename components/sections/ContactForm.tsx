@@ -57,7 +57,7 @@ export default function ContactForm() {
       formRef.current?.reset();
     } catch {
       setError(
-        "Something went wrong. Email us directly at hello@vektor.in"
+        "Something went wrong. Email us directly at hello@vektortech.digital"
       );
     } finally {
       setLoading(false);
@@ -100,7 +100,7 @@ export default function ContactForm() {
             <RevealOnScroll delay={0.3}>
               <div className="flex flex-col gap-5 pt-4">
                 <a
-                  href="mailto:hello@vektor.in"
+                  href="mailto:hello@vektortech.digital"
                   className="group flex items-center gap-4 text-bone transition-colors hover:text-gold"
                 >
                   <div
@@ -113,7 +113,7 @@ export default function ContactForm() {
                   </div>
                   <div>
                     <p className="font-body text-sm font-light text-muted">Email</p>
-                    <p className="font-body text-sm">hello@vektor.in</p>
+                    <p className="font-body text-sm">hello@vektortech.digital</p>
                   </div>
                 </a>
 

@@ -114,7 +114,7 @@ export const FOOTER_LINKS = {
     { label: "Contact", href: "#contact" },
   ],
   contact: [
-    { label: "hello@vektor.in", href: "mailto:hello@vektor.in" },
+    { label: "hello@vektortech.digital", href: "mailto:hello@vektortech.digital" },
     {
       label: "Dharwad, Karnataka",
       href: "https://maps.google.com/?q=Dharwad,Karnataka,India",

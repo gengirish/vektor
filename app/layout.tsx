@@ -91,7 +91,7 @@ const jsonLd = {
   },
   contactPoint: {
     "@type": "ContactPoint",
-    email: "hello@vektor.in",
+    email: "hello@vektortech.digital",
     telephone: "+918555960837",
     contactType: "sales",
     availableLanguage: ["English", "Hindi", "Kannada"],
