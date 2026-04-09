@@ -1,18 +1,20 @@
-import { Resend } from "resend";
+import { AgentMailClient } from "agentmail";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
+  const apiKey = process.env.AGENTMAIL_API_KEY;
+  const inboxId = process.env.AGENTMAIL_INBOX_ID;
+
+  if (!apiKey || !inboxId) {
     return NextResponse.json(
       { error: "Email service not configured" },
       { status: 503 }
     );
   }
 
-  const resend = new Resend(apiKey);
+  const client = new AgentMailClient({ apiKey });
 
   try {
     const body = await req.json();
@@ -25,13 +27,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await resend.emails.send({
-      from: "Vektor Technologies <contact@vektortech.digital>",
-      to: "gen.girish@gmail.com",
-      replyTo: email,
+    await client.inboxes.messages.send(inboxId, {
+      to: process.env.CONTACT_TO_EMAIL || "gen.girish@gmail.com",
       subject: `New enquiry from ${name} — ${service || "General"}`,
+      replyTo: email,
+      text: [
+        `New Enquiry — Vektor Technologies`,
+        ``,
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Phone: ${phone || "Not provided"}`,
+        `Company: ${company || "Not provided"}`,
+        `Service: ${service || "Not specified"}`,
+        ``,
+        `Message:`,
+        message,
+      ].join("\n"),
       html: `
-        <h2>New Enquiry — VEKTOR</h2>
+        <h2>New Enquiry — Vektor Technologies</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
