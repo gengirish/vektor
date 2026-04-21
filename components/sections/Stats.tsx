@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView } from "framer-motion";
+import { useInView, useReducedMotion } from "framer-motion";
 import { STATS } from "@/lib/constants";
 
 function StatItem({
@@ -16,9 +16,15 @@ function StatItem({
   const [display, setDisplay] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!isInView) return;
+
+    if (reduceMotion) {
+      setDisplay(value);
+      return;
+    }
 
     const duration = 1800;
     const start = performance.now();
@@ -33,7 +39,7 @@ function StatItem({
 
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [isInView, value]);
+  }, [isInView, value, reduceMotion]);
 
   return (
     <div

@@ -104,14 +104,14 @@ export default function Services() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map((service, i) => (
               <RevealOnScroll key={service.num} delay={i * 0.08}>
-                <div
-                  className={`group relative flex flex-col gap-5 p-8 transition-colors duration-300 hover:bg-bg2 md:p-10 ${
+                <a
+                  href="#contact"
+                  className={`group relative flex flex-col gap-5 p-8 transition-colors duration-300 hover:bg-bg2 md:p-10 no-underline ${
                     i % 3 !== 2 ? "lg:border-r lg:border-border" : ""
                   } ${i < 3 ? "border-b border-border" : ""} ${
                     i % 2 === 0 && i < 4 ? "border-r border-border md:border-r" : ""
                   }`}
                 >
-                  {/* Hover gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
                   <span className="relative font-mono text-sm text-gold">
@@ -130,8 +130,7 @@ export default function Services() {
                     {service.description}
                   </p>
 
-                  {/* Arrow on hover */}
-                  <div className="absolute bottom-6 right-6 translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                  <div className="absolute bottom-6 right-6 translate-x-2 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" aria-hidden="true">
                     <svg
                       className="h-5 w-5 text-gold"
                       fill="none"
@@ -142,7 +141,7 @@ export default function Services() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </div>
-                </div>
+                </a>
               </RevealOnScroll>
             ))}
           </div>

@@ -116,6 +116,12 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
+        <a
+          href="#main-content"
+          className="fixed top-0 left-0 z-[10001] -translate-y-full bg-gold px-6 py-3 font-display text-sm tracking-widest text-bg transition-transform focus:translate-y-0"
+        >
+          Skip to content
+        </a>
         <Cursor />
         <WhatsAppButton />
         {children}

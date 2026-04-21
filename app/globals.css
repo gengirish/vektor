@@ -8,7 +8,7 @@
   --color-gold-l: #F5C842;
   --color-gold-d: #A67510;
   --color-bone: #EAE6DC;
-  --color-muted: #5A5960;
+  --color-muted: #8A8892;
   --color-border: #1E1E28;
 
   --font-display: var(--font-bebas-neue);
@@ -24,7 +24,7 @@
   --bg2: #0D0D12;
   --bg3: #111118;
   --bone: #EAE6DC;
-  --muted: #5A5960;
+  --muted: #8A8892;
   --border: #1E1E28;
 }
 
@@ -71,11 +71,23 @@ body::before {
   background-size: 256px 256px;
 }
 
-/* ─── Hide default cursor ─── */
-@media (pointer: fine) {
+/* ─── Hide default cursor (only when custom cursor can render) ─── */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
   * {
     cursor: none !important;
   }
+}
+
+/* ─── Fallback pointer for interactive elements ─── */
+a,
+button,
+[role="button"],
+input,
+textarea,
+select,
+label,
+summary {
+  cursor: pointer;
 }
 
 /* ─── Selection ─── */
@@ -132,8 +144,15 @@ body::before {
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 100%);
 }
 
-/* ─── Focus visible ring ─── */
+/* ─── Focus visible ring (high specificity to override outline-none) ─── */
 :focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
+  outline: 2px solid var(--gold) !important;
+  outline-offset: 2px !important;
+}
+
+/* ─── Smooth transitions on all interactive hover states ─── */
+a,
+button,
+[role="button"] {
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, opacity 150ms ease;
 }

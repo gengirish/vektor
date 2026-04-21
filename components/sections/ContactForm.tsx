@@ -2,8 +2,7 @@
 
 import { useState, useRef, type FormEvent } from "react";
 import RevealOnScroll from "@/components/RevealOnScroll";
-
-const WHATSAPP_NUMBER = "918555960837";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 
 interface FormData {
   name: string;

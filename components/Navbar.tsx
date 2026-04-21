@@ -1,13 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import Logo from "./Logo";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -26,6 +29,54 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+    hamburgerRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeMenu();
+        return;
+      }
+
+      if (e.key === "Tab" && menuRef.current) {
+        const focusable = menuRef.current.querySelectorAll<HTMLElement>(
+          'a, button, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen, closeMenu]);
+
+  useEffect(() => {
+    if (menuOpen && menuRef.current) {
+      const firstLink = menuRef.current.querySelector<HTMLElement>("a");
+      firstLink?.focus();
+    }
+  }, [menuOpen]);
+
+  const motionProps = reduceMotion
+    ? { initial: false, animate: { opacity: 1, y: 0 } }
+    : undefined;
+
   return (
     <>
       <nav
@@ -36,7 +87,6 @@ export default function Navbar() {
             : "bg-transparent"
         }`}
       >
-        {/* Logo */}
         <a href="/" className="flex items-center gap-2.5">
           <Logo className="h-9 w-9 text-bone" />
           <span className="font-display text-2xl tracking-wider text-bone">
@@ -44,7 +94,6 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* Center links — desktop */}
         <div className="hidden items-center gap-10 md:flex">
           {NAV_LINKS.map((link) => (
             <a
@@ -57,7 +106,6 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Right side */}
         <div className="flex items-center gap-4">
           <a
             href="#contact"
@@ -66,12 +114,13 @@ export default function Navbar() {
             GET STARTED
           </a>
 
-          {/* Hamburger — mobile only */}
           <button
+            ref={hamburgerRef}
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex h-10 w-10 flex-col items-center justify-center gap-[5px] md:hidden"
             aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
             <span
               className={`h-[2px] w-6 bg-gold transition-all duration-300 ${
@@ -92,25 +141,31 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            ref={menuRef}
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            initial={reduceMotion ? false : { opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
+            transition={{ duration: reduceMotion ? 0 : 0.3 }}
             className="fixed inset-0 z-[90] flex flex-col items-center justify-center gap-12 bg-[rgba(7,7,10,0.98)] backdrop-blur-[20px] md:hidden"
           >
             {NAV_LINKS.map((link, i) => (
               <motion.a
                 key={link.href}
                 href={link.href}
-                onClick={() => setMenuOpen(false)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
+                onClick={closeMenu}
+                {...(motionProps ?? {
+                  initial: { opacity: 0, y: 20 },
+                  animate: { opacity: 1, y: 0 },
+                  exit: { opacity: 0, y: 10 },
+                  transition: { delay: i * 0.08, duration: 0.4 },
+                })}
                 className="font-display text-[52px] leading-none tracking-[0.06em] text-bone transition-colors hover:text-gold"
               >
                 {link.label}
@@ -118,11 +173,13 @@ export default function Navbar() {
             ))}
             <motion.a
               href="#contact"
-              onClick={() => setMenuOpen(false)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ delay: NAV_LINKS.length * 0.08, duration: 0.4 }}
+              onClick={closeMenu}
+              {...(motionProps ?? {
+                initial: { opacity: 0, y: 20 },
+                animate: { opacity: 1, y: 0 },
+                exit: { opacity: 0, y: 10 },
+                transition: { delay: NAV_LINKS.length * 0.08, duration: 0.4 },
+              })}
               className="mt-4 bg-gold px-8 py-3.5 font-display text-sm tracking-widest text-bg transition-colors hover:bg-gold-l"
             >
               GET STARTED

@@ -99,6 +99,10 @@ export const TICKER_ITEMS = [
   "Est. 1403",
 ] as const;
 
+export const WHATSAPP_NUMBER = "918555960837";
+export const WHATSAPP_MESSAGE =
+  "Hi VEKTOR! I'm interested in learning more about your services.";
+
 export const FOOTER_LINKS = {
   services: [
     "AI Integration",
